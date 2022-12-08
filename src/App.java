@@ -14,117 +14,8 @@ import model.Contact;
 public class App {
     private static Scanner scan = new Scanner(System.in);
 
-    private static void listerContact() {
-        // Contact c = new Contact();
-        try {
-            ArrayList<Contact> liste = Contact.lister();
+    public static void setAll(Contact c) {
 
-            for (Contact contact : liste) {
-                System.out.println(contact.getPrenom() + " " + contact.getNom());
-            }
-        } catch (IOException e) {
-            System.out.println("Erreur avec le fichier");
-        }
-
-    }
-
-    private static void removeContact() {
-        try {
-            System.out.println("Saisir le mail de la personne que vous voulez supprimer..");
-
-            ArrayList<Contact> liste = Contact.lister();
-            String numberToDelete = scan.nextLine();
-            for (Contact contact : liste) {
-                if (contact.getNumero().equals(numberToDelete)) {
-                    liste.remove(contact);
-                    Contact.clearFile();
-                    Contact.saver(liste);
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    private static void editContact() {
-        try {
-            ArrayList<Contact> liste = Contact.lister();
-
-            System.out.println("Saisir le mail de la personne à modifier.");
-            String mailToEdit = scan.nextLine();
-
-            for (Contact contact : liste) {
-                if (contact.getMail().equals(mailToEdit)) {
-
-                    System.out.println("Saisir le nom");
-                    contact.setNom(scan.nextLine());
-
-                    System.out.println("Saisir le prenom");
-                    contact.setPrenom(scan.nextLine());
-
-                    System.out.println("Saisir le numero");
-                    contact.setNumero(scan.nextLine());
-
-                    System.out.println("Saisir le mail");
-                    contact.setMail(scan.nextLine());
-
-                    System.out.println("Saisir la date de naissance");
-                    contact.setDateNaissance(scan.nextLine());
-
-                    Contact.clearFile();
-                    Contact.saver(liste);
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    private static void sortByName() {
-        try {
-            ArrayList<Contact> liste = Contact.lister();
-
-            Collections.sort(liste, new Comparator<Contact>() {
-                @Override
-                public int compare(Contact c1, Contact c2) {
-                    return c1.getNom().compareTo(c2.getNom());
-                }
-            });
-
-            Contact.clearFile();
-            for (Contact contact : liste) {
-                contact.enregistrer();
-            }
-        } catch (IOException e) {
-            System.out.println("Error :" + e);
-        }
-    }
-
-    private static void sortByDate() {
-        try {
-            ArrayList<Contact> liste = Contact.lister();
-
-            Collections.sort(liste, new Comparator<Contact>() {
-                @Override
-                public int compare(Contact c1, Contact c2) {
-                    return c1.getDateNaissance().compareTo(c2.getDateNaissance());
-                }
-            });
-
-            Contact.clearFile();
-            for (Contact contact : liste) {
-                contact.enregistrer();
-            }
-        } catch (IOException e) {
-            System.out.println("Error :" + e);
-        }
-    }
-
-    private static void ajouterContact() {
-
-        Contact c = new Contact();
         System.out.println("Saisir le nom:");
         c.setNom(scan.nextLine());
         System.out.println("Saisir le prénom:");
@@ -160,6 +51,110 @@ public class App {
             }
         } while (true);
 
+    }
+
+    private static void listerContact() {
+        try {
+            ArrayList<Contact> liste = Contact.lister();
+
+            for (Contact contact : liste) {
+                System.out.println(contact.getPrenom() + " " + contact.getNom());
+            }
+        } catch (IOException e) {
+            System.out.println("Erreur avec le fichier");
+        }
+
+    }
+
+    private static void removeContact() {
+        try {
+            System.out.println("Saisir le mail de la personne que vous voulez supprimer..");
+
+            ArrayList<Contact> liste = Contact.lister();
+            String mailToDelete = scan.nextLine();
+            for (Contact contact : liste) {
+                if (contact.getMail().equals(mailToDelete)) {
+                    liste.remove(contact);
+                    Contact.clearFile();
+                    Contact.saver(liste);
+                    System.out.println("Contact supprimer");
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private static void editContact() {
+        try {
+            ArrayList<Contact> liste = Contact.lister();
+
+            System.out.println("Saisir le mail de la personne à modifier.");
+            String mailToEdit = scan.nextLine();
+
+            for (Contact contact : liste) {
+                if (contact.getMail().equals(mailToEdit)) {
+
+                    setAll(contact);
+
+                    Contact.clearFile();
+                    Contact.saver(liste);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private static void sortByName() {
+        try {
+            ArrayList<Contact> liste = Contact.lister();
+
+            Collections.sort(liste, new Comparator<Contact>() {
+                @Override
+                public int compare(Contact c1, Contact c2) {
+                    return c1.getNom().compareTo(c2.getNom());
+                }
+            });
+
+            Contact.clearFile();
+            for (Contact contact : liste) {
+                contact.enregistrer();
+            }
+
+            listerContact();
+        } catch (IOException e) {
+            System.out.println("Error :" + e);
+        }
+    }
+
+    private static void sortByDate() {
+        try {
+            ArrayList<Contact> liste = Contact.lister();
+
+            Collections.sort(liste, new Comparator<Contact>() {
+                @Override
+                public int compare(Contact c1, Contact c2) {
+                    return c1.getDateNaissance().compareTo(c2.getDateNaissance());
+                }
+            });
+
+            Contact.clearFile();
+            for (Contact contact : liste) {
+                contact.enregistrer();
+            }
+
+            listerContact();
+        } catch (IOException e) {
+            System.out.println("Error :" + e);
+        }
+    }
+
+    private static void ajouterContact() {
+        Contact c = new Contact();
+        setAll(c);
         c.enregistrer();
 
     }
