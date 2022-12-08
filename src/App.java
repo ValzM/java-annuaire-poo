@@ -1,7 +1,11 @@
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Comparator;
 
 import javax.xml.transform.Source;
 
@@ -26,6 +30,9 @@ public class App {
                     break;
                 case "4":
                     editContact();
+                    break;
+                case "5":
+                    sortByName();
                     break;
                 case "q":
                     scan.close();
@@ -56,7 +63,6 @@ public class App {
         try {
             System.out.println("Saisissez le numero de téléphone que vous voulez supprimer.");
             ArrayList<Contact> liste = Contact.lister();
-            System.out.println(liste);
             String numberToDelete = scan.nextLine();
             for (Contact contact : liste) {
                 if (contact.getNumero().equals(numberToDelete)) {
@@ -75,7 +81,6 @@ public class App {
         try {
             System.out.println("Saisissez le numero de téléphone que vous voulez modifier.");
             ArrayList<Contact> liste = Contact.lister();
-            System.out.println(liste);
             String numberToEdit = scan.nextLine();
 
             for (Contact contact : liste) {
@@ -83,12 +88,16 @@ public class App {
 
                     System.out.println("Saisir le nom");
                     contact.setNom(scan.nextLine());
+
                     System.out.println("Saisir le prenom");
                     contact.setPrenom(scan.nextLine());
+
                     System.out.println("Saisir le numero");
                     contact.setNumero(scan.nextLine());
+
                     System.out.println("Saisir le mail");
                     contact.setMail(scan.nextLine());
+
                     System.out.println("Saisir la date de naissance");
                     contact.setDateNaissance(scan.nextLine());
 
@@ -99,6 +108,26 @@ public class App {
 
         } catch (Exception e) {
             System.out.println(e);
+        }
+    }
+
+    private static void sortByName() {
+        try {
+            ArrayList<Contact> liste = Contact.lister();
+
+            Collections.sort(liste, new Comparator<Contact>() {
+                @Override
+                public int compare(Contact c1, Contact c2) {
+                    return c1.getNom().compareTo(c2.getNom());
+                }
+            });
+
+            Contact.clearFile();
+            for (Contact contact : liste) {
+                contact.enregistrer();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -159,6 +188,7 @@ public class App {
         menus.add("2- Lister les contacts");
         menus.add("3- Supprimer un contact");
         menus.add("4- Modifier un contact");
+        menus.add("5- Trier par noms");
         menus.add("q- Quitter");
         for (String s : menus) {
             System.out.println(s);
