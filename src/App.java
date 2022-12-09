@@ -1,14 +1,9 @@
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Comparator;
-
-import javax.xml.transform.Source;
-
 import model.Contact;
 
 public class App {
@@ -67,6 +62,7 @@ public class App {
     }
 
     private static void removeContact() {
+        Boolean isExist = false;
         try {
             System.out.println("Saisir le mail de la personne que vous voulez supprimer..");
 
@@ -75,10 +71,17 @@ public class App {
             for (Contact contact : liste) {
                 if (contact.getMail().equals(mailToDelete)) {
                     liste.remove(contact);
-                    Contact.clearFile();
-                    Contact.saver(liste);
-                    System.out.println("Contact supprimer");
+                    isExist = true;
+                    break;
                 }
+            }
+
+            if (!isExist) {
+                System.out.println("Ce contact n'existe pas dans votre répertoire.");
+            } else {
+                Contact.clearFile();
+                Contact.saver(liste);
+                System.out.println("Contact supprimer");
             }
 
         } catch (Exception e) {
@@ -87,6 +90,7 @@ public class App {
     }
 
     private static void editContact() {
+        Boolean isExist = false;
         try {
             ArrayList<Contact> liste = Contact.lister();
 
@@ -95,12 +99,18 @@ public class App {
 
             for (Contact contact : liste) {
                 if (contact.getMail().equals(mailToEdit)) {
-
+                    isExist = true;
                     setAll(contact);
-
-                    Contact.clearFile();
-                    Contact.saver(liste);
+                    break;
                 }
+            }
+
+            if (!isExist) {
+                System.out.println("Ce contact n'existe pas dans votre répertoire.");
+            } else {
+                Contact.clearFile();
+                Contact.saver(liste);
+                System.out.println("Contact modifier");
             }
 
         } catch (Exception e) {
@@ -156,10 +166,12 @@ public class App {
         Contact c = new Contact();
         setAll(c);
         c.enregistrer();
+        System.out.println("Contact ajouté");
 
     }
 
     public static void searchByName() {
+        Boolean isExist = false;
         try {
             ArrayList<Contact> liste = Contact.lister();
 
@@ -168,9 +180,15 @@ public class App {
 
             for (Contact contact : liste) {
                 if (contact.getNom().equals(contactToSearch)) {
+                    isExist = true;
                     System.out.println(contact.toString());
                 }
             }
+
+            if (!isExist) {
+                System.out.println("Ce contact n'existe pas dans votre répertoire.");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
