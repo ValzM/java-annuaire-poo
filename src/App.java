@@ -81,7 +81,7 @@ public class App {
             } else {
                 Contact.clearFile();
                 Contact.saver(liste);
-                System.out.println("Contact supprimer");
+                System.out.println("Contact supprimé");
             }
 
         } catch (Exception e) {
@@ -110,7 +110,7 @@ public class App {
             } else {
                 Contact.clearFile();
                 Contact.saver(liste);
-                System.out.println("Contact modifier");
+                System.out.println("Contact modifié");
             }
 
         } catch (Exception e) {

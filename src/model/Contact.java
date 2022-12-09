@@ -127,7 +127,6 @@ public class Contact {
 
     @Override
     public String toString() {
-        // return this.getNom() + ";" + this.getPrenom();*
         StringBuilder build = new StringBuilder();
         build.append(getNom());
         build.append(SEPARATEUR);
