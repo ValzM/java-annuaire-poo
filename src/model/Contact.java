@@ -75,7 +75,7 @@ public class Contact {
 
     public void enregistrer() {
         try {
-            FileWriter writer = new FileWriter("contacts.csv", true);
+            FileWriter writer = new FileWriter("Contact/contacts.csv", true);
             writer.write(this.toString());
             writer.close();
         } catch (IOException e) {
@@ -85,7 +85,7 @@ public class Contact {
 
     public static void clearFile() {
         try {
-            FileWriter writer = new FileWriter("contacts.csv", false);
+            FileWriter writer = new FileWriter("Contact/contacts.csv", false);
             writer.write("");
             writer.close();
         } catch (IOException e) {
@@ -95,7 +95,7 @@ public class Contact {
 
     public static ArrayList<Contact> lister() throws IOException {
         ArrayList<Contact> list = new ArrayList<>();
-        BufferedReader buf = new BufferedReader(new FileReader("contacts.csv"));
+        BufferedReader buf = new BufferedReader(new FileReader("Contact/contacts.csv"));
         try {
             String ligne = buf.readLine();
             while (ligne != null) {
